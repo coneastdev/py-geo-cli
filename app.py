@@ -1,4 +1,6 @@
 import requests
+import json
+import datetime as dt
 
 def getGeoLocationFromPlaceName(placeName) -> dict:
     url = f"https://geocoding-api.open-meteo.com/v1/search?name={placeName}&language=en&format=json"
@@ -6,7 +8,7 @@ def getGeoLocationFromPlaceName(placeName) -> dict:
     return response.json()
 
 def getWeatherDataFromHeadings(lat, long) -> dict:
-    url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={long}&current=temperature_2m,weather_code,rain,visibility,snowfall"
+    url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={long}&current=temperature_2m,weather_code"
     response = requests.api.get(url)
     return response.json()
 
@@ -21,11 +23,17 @@ def main():
         forecast = getWeatherDataFromHeadings(geoData["results"][0]["latitude"], geoData["results"][0]["longitude"])
 
         weather = "null"
+        if forecast.get("current"):
+            with open("weatherCodes.json") as rawCodes:
+                codes = json.load(rawCodes)
+                weather = codes[str(forecast["current"]["weather_code"])]
+        
+        date = dt.datetime.fromisoformat(forecast["current"]["time"])
 
-        if forecast["current"]["rain"]
-
-        print(f"#### {placeName} weather forecast #####")
+        print(f"\n#### {placeName} weather forecast #####\n")
         print(f"Lat: {forecast["latitude"]} Long: {forecast["longitude"]}")
+        print(f"Weather: {weather}")
+        print(f"date: {date.strftime("%d/%m/%y")} time: {date.strftime("%h:%m:%s")}")
         
 
 
