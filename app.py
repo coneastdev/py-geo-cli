@@ -18,7 +18,17 @@ def main():
     geoData = getGeoLocationFromPlaceName(placeName)
     print(geoData)
     if geoData.get("results"):
-        print(getWeatherDataFromHeadings(geoData["results"][0]["latitude"], geoData["results"][0]["longitude"]))
+        forecast = getWeatherDataFromHeadings(geoData["results"][0]["latitude"], geoData["results"][0]["longitude"])
+
+        weather = "null"
+
+        if forecast["current"]["rain"]
+
+        print(f"#### {placeName} weather forecast #####")
+        print(f"Lat: {forecast["latitude"]} Long: {forecast["longitude"]}")
+        
+
+
     else:
         print("Location not found, check you spelt it right")
         main()
