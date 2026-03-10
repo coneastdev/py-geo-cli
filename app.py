@@ -2,10 +2,15 @@ import requests
 import json
 import datetime as dt
 
-def getGeoLocationFromPlaceName(placeName) -> dict:
+def getGeoLocationFromPlaceName(placeName) -> list:
     url = f"https://geocoding-api.open-meteo.com/v1/search?name={placeName}&language=en&format=json"
-    response = requests.api.get(url)
-    return response.json()
+    response = requests.api.get(url).json()
+    try:
+        lat = response["results"][0]["latitude"]
+        long = response["results"][0]["longitude"]
+    except:
+        return ["None"]
+    return [lat, long]
 
 def getWeatherDataFromHeadings(lat, long) -> dict:
     url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={long}&current=temperature_2m,weather_code"
@@ -19,8 +24,8 @@ def main():
         quit()
     geoData = getGeoLocationFromPlaceName(placeName)
     print(geoData)
-    if geoData.get("results"):
-        forecast = getWeatherDataFromHeadings(geoData["results"][0]["latitude"], geoData["results"][0]["longitude"])
+    if geoData[0] != "None":
+        forecast = getWeatherDataFromHeadings(geoData[0], geoData[1])
 
         weather = "null"
         if forecast.get("current"):
