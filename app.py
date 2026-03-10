@@ -33,7 +33,7 @@ def main():
         print(f"\n#### {placeName} weather forecast #####\n")
         print(f"Lat: {forecast["latitude"]} Long: {forecast["longitude"]}")
         print(f"Weather: {weather}")
-        print(f"date: {date.strftime("%d/%m/%y")} time: {date.strftime("%h:%m:%s")}")
+        print(f"date: {date.strftime("%d/%m/%y")} time: {date.strftime("%H:%M:%S")}")
         
 
 
