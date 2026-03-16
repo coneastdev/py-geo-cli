@@ -13,6 +13,15 @@ logging.basicConfig(
     datefmt="%Y-%m-%d %H:%M",
 )
 
+def exportForecast(forecast: str) -> None:
+    with open("history.csv", "r+") as f:
+        if f.read() == "":
+            f.write("Time, Place name, Lat, Long, Weather code, Weather")
+
+    with open("history.csv", "a") as f:
+        logging.info("writing forecast to history.csv")
+        f.write("\n" + forecast)
+
 def main():
     print("##### py geo cli #####")
     placeName = input("Enter place name, post code or \"quit\" $ ")
@@ -35,8 +44,12 @@ def main():
         print(f"Lat: {forecast["latitude"]} Long: {forecast["longitude"]}")
         print(f"Weather: {weather}")
         print(f"date: {date.strftime("%d/%m/%y")} time: {date.strftime("%H:%M:%S")}")
+
+        if input("save to file Y/n $ ").lower() == "y":
+            data = f"{forecast["current"]["time"]}, {placeName}, {forecast["latitude"]}, {forecast["longitude"]}, {forecast["current"]["weather_code"]}, {weather}"
+            exportForecast(data)
         
-        logging.info("succuessful forecast, ending program")
+        logging.info("successful forecast, ending program")
 
     else:
         logging.warning("no place name entered, retrying")
