@@ -46,4 +46,5 @@ def main():
         print("Location not found, check you spelt it right")
         main()
 
-main()
+if __name__ == "__main__":
+    main()
