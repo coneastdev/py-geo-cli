@@ -1,6 +1,18 @@
 import requests
 import json
 import datetime as dt
+import logging
+
+
+logging.basicConfig(
+    filename="log.log",
+    encoding="utf-8",
+    filemode="a",
+    format="{asctime}, {levelname}, {name}, {message}",
+    style="{",
+    datefmt="%Y-%m-%d %H:%M",
+)
+
 
 def getGeoLocationFromPlaceName(placeName: str) -> list:
     url = f"https://geocoding-api.open-meteo.com/v1/search?name={placeName}&language=en&format=json"
@@ -9,13 +21,18 @@ def getGeoLocationFromPlaceName(placeName: str) -> list:
         lat = response["results"][0]["latitude"]
         long = response["results"][0]["longitude"]
     except:
+        logging.error("Invalid lat & long returented due to invalid place name")
         return ["None"]
     return [lat, long]
 
 def getWeatherDataFromHeadings(lat, long) -> dict:
     url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={long}&current=temperature_2m,weather_code"
     response = requests.api.get(url)
-    return response.json()
+    if response:
+        return response.json()
+    else:
+        logging.error("invalid response from met API")
+        return {}
 
 def main():
     print("##### py geo cli #####")
@@ -40,9 +57,10 @@ def main():
         print(f"Weather: {weather}")
         print(f"date: {date.strftime("%d/%m/%y")} time: {date.strftime("%H:%M:%S")}")
         
-
+        logging.info("succuessful forecast, ending program")
 
     else:
+        logging.warning("no place name entered, retrying")
         print("Location not found, check you spelt it right")
         main()
 
