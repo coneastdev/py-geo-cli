@@ -14,8 +14,12 @@ logging.basicConfig(
 )
 
 def exportForecast(forecast: str) -> None:
-    with open("history.csv", "r+") as f:
-        if f.read() == "":
+    try:
+        with open("history.csv", "r+") as f:
+            if f.read() == "":
+                f.write("Time, Place name, Lat, Long, Weather code, Weather")
+    except:
+        with open("history.csv", "w") as f:
             f.write("Time, Place name, Lat, Long, Weather code, Weather")
 
     with open("history.csv", "a") as f:
