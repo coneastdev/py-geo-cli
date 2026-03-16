@@ -1,14 +1,15 @@
-import unittest
 import sys
+import os
+import unittest
 
-sys.path.insert(0, "../apis")
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from apis import getGeoLocationFromPlaceName
+from apis.apis import getGeoLocationFromPlaceName
 
-class TestGeoLocator(unittest.TestCase):
+class TestGetGeoLocationFromPlaceName(unittest.TestCase):
 
-    def checkLocationOfLondon(self):
-        self.assertEqual(getGeoLocationFromPlaceName("London"), [51.5072, 0.1276])
+    def test_checkLocationOfLondon(self):
+        self.assertEqual(getGeoLocationFromPlaceName("London"), [51.50853, -0.12574])
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
