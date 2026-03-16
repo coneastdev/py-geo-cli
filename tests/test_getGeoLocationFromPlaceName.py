@@ -1,10 +1,9 @@
 import unittest
-import os
-from pathlib import Path
+import sys
 
-os.chdir(Path.cwd().parent)
-print(Path.cwd())
-from app import getGeoLocationFromPlaceName
+sys.path.insert(0, "../apis")
+
+from apis import getGeoLocationFromPlaceName
 
 class TestGeoLocator(unittest.TestCase):
 
