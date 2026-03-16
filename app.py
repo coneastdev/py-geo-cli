@@ -2,7 +2,7 @@ import requests
 import json
 import datetime as dt
 
-def getGeoLocationFromPlaceName(placeName) -> list:
+def getGeoLocationFromPlaceName(placeName: str) -> list:
     url = f"https://geocoding-api.open-meteo.com/v1/search?name={placeName}&language=en&format=json"
     response = requests.api.get(url).json()
     try:
