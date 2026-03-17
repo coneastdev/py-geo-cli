@@ -28,7 +28,10 @@ def exportForecast(forecast: str) -> None:
 
 def main():
     print("##### py geo cli #####")
-    placeName = input("Enter place name, post code or \"quit\" $ ")
+    try:
+        placeName = input("Enter place name or type \"quit\" $ ")
+    except:
+        quit()
     if placeName.lower() in ["quit", "q", "exit"]:
         quit()
     geoData = getGeoLocationFromPlaceName(placeName)
@@ -49,7 +52,7 @@ def main():
         print(f"Weather: {weather}")
         print(f"date: {date.strftime("%d/%m/%y")} time: {date.strftime("%H:%M:%S")}")
 
-        if input("save to file Y/n $ ").lower() == "y":
+        if input("save to file \"Y/n\" ? $ ").lower() == "y":
             data = f"{forecast["current"]["time"]}, {placeName}, {forecast["latitude"]}, {forecast["longitude"]}, {forecast["current"]["weather_code"]}, {weather}"
             exportForecast(data)
         
