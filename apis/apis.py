@@ -22,7 +22,7 @@ def getGeoLocationFromPlaceName(placeName: str) -> list:
         return ["None"]
     return [lat, long]
 
-def getWeatherDataFromHeadings(lat, long) -> dict:
+def getWeatherDataFromHeadings(lat: float, long: float) -> dict:
     url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={long}&current=temperature_2m,weather_code"
     response = requests.api.get(url)
     if response:
